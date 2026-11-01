@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Sesi Day - Word Match & Catch</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            width: 100%;
+        }
+        .day-btn {
+            background-color: white;
+            border: 2px solid #3498db;
+            color: #2c3e50;
+            padding: 15px 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .day-btn:hover {
+            background-color: #3498db;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+        @media (max-width: 600px) {
+            .menu-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Word Match & Catch 🇰🇷</h1>
+    <div class="subtitle">Pilih Sesi Day dari Buku My First 500 Korean Words</div>
+
+    <div class="menu-container" id="menu-grid"></div>
+
+    <script>
+        const menuGrid = document.getElementById("menu-grid");
+
+        // Generate tombol Day 1 sampai 50 secara otomatis
+        for (let i = 1; i <= 50; i++) {
+            const btn = document.createElement("button");
+            btn.classList.add("day-btn");
+            btn.textContent = `Day ${i < 10 ? '0' + i : i}`;
+            btn.onclick = () => {
+                // Berpindah ke halaman play dengan membawa parameter nomor day di URL
+                window.location.href = `JS.html?day=${i}`;
+            };
+            menuGrid.appendChild(btn);
+        }
+    </script>
+
+</body>
+</html>

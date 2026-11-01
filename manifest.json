@@ -1,0 +1,15 @@
+{
+  "name": "Game Belajar Bahasa Korea",
+  "short_name": "K-Game",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1B365D",
+  "theme_color": "#1B365D",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

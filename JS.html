@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Korean</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('Background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .subtitle {
+            color: #f1f2f6;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 0.95rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        .mode-selector {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .mode-btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            border: 1px solid #ffffff;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #2c3e50;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background-color: #1B365D;
+            color: white;
+            border-color: #1B365D;
+        }
+        .scoreboard {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 650px;
+            width: 100%;
+            perspective: 1000px; /* Diperlukan untuk efek 3D Flip */
+        }
+        .card {
+            background-color: rgb(244 247 250 / 85%);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem; /* Ukuran default untuk terjemahan EN */
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            user-select: none;
+            text-align: center;
+            padding: 10px;
+            word-break: break-word;
+            transition: transform 0.4s ease, background-color 0.3s ease, color 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .card.korean-card {
+            font-size: 1.35rem; 
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.7);
+        }
+        .card.selected {
+            background-color: rgb(27 54 93 / 90%);
+            color: white;
+        }
+        .card.matched {
+            transform: rotateY(180deg) scale(0.95);
+            background-color: rgb(27 54 93);
+            color: transparent; /* Membuat teks tidak terlihat saat dibalik */
+            cursor: default;
+            pointer-events: none;
+            box-shadow: none;
+        }
+        .blank-container {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            max-width: 650px;
+            width: 100%;
+            display: none;
+            text-align: center;
+        }
+        .story-sentence {
+            font-size: 1.4rem;
+            line-height: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .blank-input {
+            padding: 6px 12px;
+            font-size: 1.2rem;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            width: 140px;
+            text-align: center;
+            outline: none;
+            background-color: #f8f9fa;
+        }
+        .translation-box {
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 25px;
+            background: #f1f2f6;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .nav-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: background 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .action-btn { background-color: #27ae60; }
+        .action-btn:hover { background-color: #219653; }
+        .next-btn { background-color: #2980b9; display: none; }
+        .next-btn:hover { background-color: #1f6391; }
+        .back-btn { background-color: #7f8c8d; }
+        .back-btn:hover { background-color: #636e72; }
+    </style>
+</head>
+<body>
+
+    <h1 id="day-title"></h1>
+    <div class="subtitle" id="day-subtitle">Choose Mode</div>
+    
+    <!-- Tombol Pemilihan Mode -->
+    <div class="mode-selector">
+        <button class="mode-btn active" id="btn-mode1">Card Mode</button>
+        <button class="mode-btn" id="btn-mode2">(Story) Mode</button>
+    </div>
+
+    <div class="scoreboard" id="scoreboard-display">
+    Remaining Pair: <span id="pairs-left">4</span>
+    </div>
+
+    <!-- Area Mode 1: Papan Grid Bebas -->
+    <div class="game-container" id="game-board"></div>
+
+    <!-- Area Mode 2 -->
+    <div class="blank-container" id="blank-board">
+        <div style="font-weight: bold; color: #e67e22; margin-bottom: 15px;">Lengkapi kalimat cerita bahasa Korea berikut:</div>
+        <div class="story-sentence" id="story-sentence">Memuat kalimat...</div>
+        <div class="translation-box" id="story-translation">Terjemahan: ...</div>
+        <div>
+            <button class="btn action-btn" id="submit-blank">Periksa Jawaban</button>
+        </div>
+    </div>
+
+    <!-- Navigasi Bawah -->
+    <div class="nav-buttons">
+        <button class="btn action-btn" id="restart-btn" style="display:none;">Ulangi Sesi</button>
+        <button class="btn next-btn" id="next-day-btn">Day Berikutnya ➡️</button>
+        <button class="btn back-btn" id="back-menu-btn">Kembali ke Menu Utama</button>
+    </div>
+
+    <script type="module">
+        import { masterData } from './data.js';
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        let dayParam = parseInt(urlParams.get("day")) || 1;
+
+        document.getElementById("day-title").textContent = `Day ${dayParam < 10 ? '0' + dayParam : dayParam} - Learn Korean`;
+
+        let currentData = masterData[dayParam] || masterData[1];
+
+        let currentMode = 1; 
+        let cards = [];
+        let selectedCards = [];
+        let matchedPairs = 0;
+        let isLocked = false;
+
+        const gameBoard = document.getElementById("game-board");
+        const blankBoard = document.getElementById("blank-board");
+        const pairsLeftDisplay = document.getElementById("pairs-left");
+        const scoreboardDisplay = document.getElementById("scoreboard-display");
+        const restartBtn = document.getElementById("restart-btn");
+        const nextDayBtn = document.getElementById("next-day-btn");
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById("btn-mode1").classList.toggle("active", mode === 1);
+            document.getElementById("btn-mode2").classList.toggle("active", mode === 2);
+
+            if (mode === 1) {
+                gameBoard.style.display = "grid";
+                blankBoard.style.display = "none";
+                scoreboardDisplay.style.display = "block";
+            } else {
+                gameBoard.style.display = "none";
+                blankBoard.style.display = "block";
+                scoreboardDisplay.style.display = "none";
+            }
+            initCurrentMode();
+        }
+
+        function initCurrentMode() {
+            restartBtn.style.display = "none";
+            nextDayBtn.style.display = "none";
+            if (currentMode === 1) {
+                initMatchGame();
+            } else {
+                initBlankGame();
+            }
+        }
+        function initMatchGame() {
+            gameBoard.innerHTML = "";
+            cards = [];
+            selectedCards = [];
+            matchedPairs = 0;
+            isLocked = false;
+            pairsLeftDisplay.textContent = currentData.vocab.length;
+
+            currentData.vocab.forEach((item, index) => {
+                cards.push({ text: item.korean, id: index, type: 'korean' });
+                cards.push({ text: item.meaning, id: index, type: 'meaning' });
+            });
+
+            cards.sort(() => Math.random() - 0.5);
+
+            cards.forEach((cardData) => {
+                const el = document.createElement("div");
+                el.classList.add("card");
+                
+                // Jika tipe kartu adalah korean, tambahkan kelas khusus font size
+                if (cardData.type === 'korean') {
+                    el.classList.add("korean-card");
+                }
+
+                el.dataset.id = cardData.id;
+                el.dataset.type = cardData.type;
+                el.textContent = cardData.text;
+                el.addEventListener("click", handleCardClick);
+                gameBoard.appendChild(el);
+            });
+        }
+        function handleCardClick() {
+            if (isLocked) return;
+            const clickedCard = this;
+            if (clickedCard.classList.contains("selected") || clickedCard.classList.contains("matched")) return;
+
+            clickedCard.classList.add("selected");
+            selectedCards.push(clickedCard);
+
+            if (selectedCards.length === 2) {
+                const [card1, card2] = selectedCards;
+
+                if (card1.dataset.id === card2.dataset.id && card1.dataset.type !== card2.dataset.type) {
+                    isLocked = true;
+                    
+                    // Berikan efek flip (kartu berputar dan berubah warna menjadi hijau tertutup)
+                    card1.classList.remove("selected");
+                    card2.classList.remove("selected");
+                    card1.classList.add("matched");
+                    card2.classList.add("matched");
+
+                    matchedPairs++;
+                    pairsLeftDisplay.textContent = currentData.vocab.length - matchedPairs;
+                    selectedCards = [];
+                    isLocked = false;
+
+                    if (matchedPairs === currentData.vocab.length) {
+                        setTimeout(() => {
+                            restartBtn.style.display = "inline-block";
+                            if (dayParam < 50) nextDayBtn.style.display = "inline-block";
+                        }, 400);
+                    }
+                } else {
+                    isLocked = true;
+                    setTimeout(() => {
+                        card1.classList.remove("selected");
+                        card2.classList.remove("selected");
+                        selectedCards = [];
+                        isLocked = false;
+                    }, 800);
+                }
+            }
+        }
+
+        function initBlankGame() {
+            document.getElementById("story-sentence").innerHTML = currentData.story.text;
+            document.getElementById("story-translation").textContent = `Terjemahan: "${currentData.story.translation}"`;
+        }
+
+        function checkBlankAnswer() {
+            const userAns = document.getElementById("user-answer").value.trim();
+            const correctAns = currentData.story.answer;
+
+            if (userAns === correctAns) {
+                restartBtn.style.display = "inline-block";
+                if (dayParam < 50) nextDayBtn.style.display = "inline-block";
+            } else {
+                alert(`Not quite right. The correct answer is: ${correctAns}`);
+            }
+        }
+
+        function goToNextDay() {
+            if (dayParam < 50) {
+                window.location.href = `JS.html?day=${dayParam + 1}`;
+            } else {
+                alert("Congratulations! You have reached the final day (Day 50).");
+            }
+        }
+
+        document.getElementById("btn-mode1").addEventListener("click", () => switchMode(1));
+        document.getElementById("btn-mode2").addEventListener("click", () => switchMode(2));
+        document.getElementById("submit-blank").addEventListener("click", checkBlankAnswer);
+        document.getElementById("restart-btn").addEventListener("click", initCurrentMode);
+        document.getElementById("next-day-btn").addEventListener("click", goToNextDay);
+        document.getElementById("back-menu-btn").addEventListener("click", () => {
+            window.location.href = 'Index.html';
+        });
+
+        initCurrentMode();
+    </script>
+
+</body>
+</html>

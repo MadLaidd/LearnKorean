@@ -62,7 +62,7 @@ export const masterData = {
             { korean: "배부르다", meaning: "to be full" },
             { korean: "졸다", meaning: "to doze" },
             { korean: "선생님", meaning: "teacher" },
-            { korean: "무섭", meaning: "to be scary, to be scared" }
+            { korean: "무섭다", meaning: "to be scary, to be scared" }
         ]
     },
     5: {

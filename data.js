@@ -110,7 +110,7 @@ export const masterData = {
     8: {
         vocab: [
             { korean: "텔레비전", meaning: "TV" },
-            { korean: "누나", meaning: "older siste" },
+            { korean: "누나", meaning: "older sister" },
             { korean: "드라마", meaning: "TV dramas" },
             { korean: "뉴스", meaning: "news" },
             { korean: "싸우다", meaning: "to fight, to argue" },

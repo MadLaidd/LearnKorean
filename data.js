@@ -148,5 +148,75 @@ export const masterData = {
             { korean: "힘", meaning: "strength, power" },
             { korean: "가르치다", meaning: "to teach" },
         ]
+    },
+    11: {
+        vocab : [
+            { korean: "내일", meaning: "tomorrow" },
+            { korean: "친하다", meaning: "to be close (with someone)" },
+            { korean: "쓰다01", meaning: "to write" },
+            { korean: "받다", meaning: "to receive" },
+            { korean: "기쁘다", meaning: "to be glad, to be happy" },
+            { korean: "선물", meaning: "present, gift" },
+            { korean: "무엇", meaning: "what" },
+            { korean: "좋다", meaning: "to be good" },
+            { korean: "귀고리", meaning: "earrings" },
+            { korean: "목걸이", meaning: "necklace" },
+        ]
+    },
+    12: {
+        vocab : [
+            { korean: "오늘", meaning: "today" },
+            { korean: "생일", meaning: "birthday" },
+            { korean: "교실", meaning: "classroom" },
+            { korean: "먹다", meaning: "to eat" },
+            { korean: "친구", meaning: "friend" },
+            { korean: "노래", meaning: "song" },
+            { korean: "춤", meaning: "dance" },
+            { korean: "축하하다", meaning: "to congratulate, to celebrate" },
+            { korean: "재미있다", meaning: "to be fun" },
+            { korean: "하루", meaning: "day, one day" },
+        ]
+    },
+    13: {
+        vocab : [
+            { korean: "아빠", meaning: "dad" },
+            { korean: "바다", meaning: "sea, ocean" },
+            { korean: "걷다", meaning: "to walk" },
+            { korean: "식당", meaning: "restaurant" },
+            { korean: "맛있다", meaning: "to be delicious" },
+            { korean: "음식", meaning: "food" },
+            { korean: "커피", meaning: "coffee" },
+            { korean: "별", meaning: "star" },
+            { korean: "보다", meaning: "to see, to watch, to meet, to read" },
+            { korean: "행복하다", meaning: "to be happy" },
+        ]
+    },
+    14: {
+        vocab : [
+            { korean: "여름", meaning: "summer" },
+            { korean: "싫어하다", meaning: "to dislike, to hate" },
+            { korean: "덥다", meaning: "to be hot" },
+            { korean: "밖", meaning: "outside" },
+            { korean: "나가다", meaning: "to go out" },
+            { korean: "집", meaning: "house, home" },
+            { korean: "에어컨", meaning: "air conditioner" },
+            { korean: "켜다", meaning: "to turn on" },
+            { korean: "시원하다", meaning: "to be cool (temperature)" },
+            { korean: "얼음", meaning: "ice" },
+        ]
+    },
+    15: {
+        vocab : [
+            { korean: "벌써", meaning: "already" },
+            { korean: "밤", meaning: "night" },
+            { korean: "침대", meaning: "bed" },
+            { korean: "눕다", meaning: "to lie down" },
+            { korean: "잠", meaning: "sleep" },
+            { korean: "화장실", meaning: "bathroom" },
+            { korean: "책", meaning: "book" },
+            { korean: "읽다", meaning: "to read" },
+            { korean: "냉장고", meaning: "refrigerator" },
+            { korean: "우유", meaning: "milk" },
+        ]
     }
 }
